@@ -159,5 +159,6 @@ int main(void) {
     double resultado = avaliar(Expressao);
     printf("Resultado: %.3f \n", resultado);
 
+
     return 0;
 }
