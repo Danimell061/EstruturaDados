@@ -141,7 +141,6 @@ double avaliar(const char *Expressao) {
                     printf("ERRO: operador invalido!\n");
                     exit(EXIT_FAILURE);
             }
-
             I = criarItem(Res);
             empilhar(P, I);
         }
