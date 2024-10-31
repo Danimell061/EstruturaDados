@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h> // Para isdigit
+#include <math.h>
 
 #define SIM 1
 #define NAO 0
@@ -77,45 +78,71 @@ double avaliar(const char *Expressao) {
         } else if (Expressao[i] == ' ' || Expressao[i] == '\t') {
             continue;
         } else {
-            Item *I2 = desempilhar(P);
-            Item *I1 = desempilhar(P);
-
-            if (I1 == NULL || I2 == NULL) {
-                printf("ERRO: Pilha inconsistente!\n");
-                exit(EXIT_FAILURE);
-            }
-
-            double Operando2 = I2->Chave;
-            double Operando1 = I1->Chave;
+            double Operando1;
+            double Operando2;
             double Res;
+
             Item *I;
 
             switch (Expressao[i]) {
                 case '+':
+                    Operando2 = desempilhar(P)->Chave;
+                    Operando1 = desempilhar(P)->Chave;
                     Res = Operando1 + Operando2;
                     break;
                 case '-':
+                    Operando2 = desempilhar(P)->Chave;
+                    Operando1 = desempilhar(P)->Chave;
                     Res = Operando1 - Operando2;
                     break;
                 case '*':
+                    Operando2 = desempilhar(P)->Chave;
+                    Operando1 = desempilhar(P)->Chave;
                     Res = Operando1 * Operando2;
                     break;
                 case '/':
+                    Operando2 = desempilhar(P)->Chave;
+                    Operando1 = desempilhar(P)->Chave;
+
                     if (Operando2 == 0) {
                         printf("ERRO: Divisão por zero!\n");
                         exit(EXIT_FAILURE);
                     }
                     Res = Operando1 / Operando2;
                     break;
+
+                case 'l':
+                    Operando1 = desempilhar(P)->Chave;
+
+                    if (Expressao[i+1] != 'o' || Expressao[i+2] != 'g') {
+                        printf("ERRO: Problema na expressao com LOG");
+                        exit(EXIT_FAILURE);
+                    }
+                    else {
+                        Res = log10(Operando1);
+                    }
+                    break;
+
+                case 'o':
+                    if (Expressao[i - 1] != 'l' || Expressao[i + 1] != 'g') {
+                        printf("ERRO: Problema na expressao com LOG");
+                        exit(EXIT_FAILURE);
+                    }
+                    break;
+
+                case 'g':
+                    if (Expressao[i - 2] != 'l' || Expressao[i - 1] != 'o') {
+                        printf("ERRO: Problema na expressao com LOG");
+                        exit(EXIT_FAILURE);
+                    }
+                    break;
+
                 default:
                     printf("ERRO: operador invalido!\n");
                     exit(EXIT_FAILURE);
             }
-
             I = criarItem(Res);
             empilhar(P, I);
-            free(I1); // Liberar memória dos itens desempilhados
-            free(I2);
         }
     }
 
@@ -128,9 +155,10 @@ double avaliar(const char *Expressao) {
 }
 
 int main(void) {
-    const char *Expressao = "2 4 + 5 *";
+    const char *Expressao = "2 log";
     double resultado = avaliar(Expressao);
-    printf("Resultado: %f \n", resultado);
+    printf("Resultado: %.3f \n", resultado);
+
 
     return 0;
 }
