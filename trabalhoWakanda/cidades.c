@@ -76,7 +76,6 @@ Estrada *getEstrada(const char *nomeArquivo) {
             }
         }
     }
-
     free(posicoes);
     fclose(file);
     return estrada;
@@ -110,7 +109,6 @@ double calcularMenorVizinhanca(const char *nomeArquivo) {
             menorVizinhanca = vizinhanca;
         }
     }
-
     free(estrada->C);
     free(estrada);
     return menorVizinhanca;
